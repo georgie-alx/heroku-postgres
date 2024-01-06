@@ -21,7 +21,7 @@ jobs:
             heroku container:push web -a devopsproj
             heroku container:release web -a devopsproj
 
-workflow:
+workflows:
   simple_workflow:
     jobs:
       - deploy
