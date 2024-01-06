@@ -1,0 +1,27 @@
+version: 2.1 #circleCI version
+
+orbs:
+  docker: circleci/docker@2.1.4
+  heroku: circleci/heroku@2.0.0
+
+jobs:
+  pull-and-deploy:
+    docker:
+      - image: cimg/eclipse-temurin:17-jdk-jammy
+    steps:
+      - setup_remote_docker
+      - checkout
+      - heroku/install
+      - docker/pull:
+          images: georgiealx/education-space:v1.0.1
+      - run:
+          name: Heroku Container Push
+          command: |
+            heroku container:login
+            heroku container:push web -a devopsproj
+            heroku container:release web -a devopsproj
+
+workflow:
+  simple_workflow:
+    jobs:
+      - deploy
